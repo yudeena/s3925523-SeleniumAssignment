@@ -1,31 +1,50 @@
 package au.rmit.s3925523.s3925523seleniumtest;
 
-import au.rmit.s3925523.s3925523seleniumtest.base.BaseTest;
 import au.rmit.s3925523.s3925523seleniumtest.pages.*;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import com.inflectra.spiratest.addons.junitextension.SpiraTestCase;
 import com.inflectra.spiratest.addons.junitextension.SpiraExtension;
+import com.inflectra.spiratest.addons.junitextension.SpiraTestCase;
 import com.inflectra.spiratest.addons.junitextension.SpiraTestConfiguration;
+
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.By;
 import java.time.Duration;
+import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpiraExtension.class)
 @SpiraTestConfiguration(
-        url = "https://rmit.spiraservice.net",
+        url = "https://rmit.spiraservice.net/",
         login = "s3925523",
         rssToken = "{59E2D88B-88B1-4FFB-9470-FB906D2DFA96}",
-        projectId = 643,
-        releaseId = 2368,
-        testSetId = 5288
+        projectId = 643
+
 )
 
-public class BrowseCategoryTests extends BaseTest {
+class BrowseCategoryTests {
+    private static final String BASE_URL = "https://demoblaze.com/";
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    @BeforeEach
+    void setUp() {
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().window().maximize();
+        driver.get(BASE_URL);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
     @Test
     @SpiraTestCase(testCaseId = 38292)

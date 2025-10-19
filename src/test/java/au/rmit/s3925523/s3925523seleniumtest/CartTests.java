@@ -1,15 +1,17 @@
 package au.rmit.s3925523.s3925523seleniumtest;
 
-import au.rmit.s3925523.s3925523seleniumtest.base.BaseTest;
 import au.rmit.s3925523.s3925523seleniumtest.pages.*;
-import com.inflectra.spiratest.addons.junitextension.SpiraExtension;
-import org.junit.jupiter.api.Test;
+
+import com.inflectra.spiratest.addons.junitextension.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import com.inflectra.spiratest.addons.junitextension.SpiraTestCase;
-import com.inflectra.spiratest.addons.junitextension.SpiraTestConfiguration;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(SpiraExtension.class)
 @SpiraTestConfiguration(
@@ -20,7 +22,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
         releaseId = 2368,
         testSetId = -1
 )
-public class CartTests extends BaseTest {
+public class CartTests {
+    private static final String BASE_URL = "https://demoblaze.com/";
+    private WebDriver driver;
+
+    @BeforeEach
+    void setUp() {
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().window().maximize();
+        driver.get(BASE_URL);
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (driver != null) driver.quit();
+    }
 
     private void addFirstLaptopToCart() {
         HomePage home = new HomePage(driver);

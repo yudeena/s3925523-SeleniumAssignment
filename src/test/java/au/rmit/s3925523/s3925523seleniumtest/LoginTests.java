@@ -1,23 +1,19 @@
 package au.rmit.s3925523.s3925523seleniumtest;
 
-import au.rmit.s3925523.s3925523seleniumtest.base.BaseTest;
-import au.rmit.s3925523.s3925523seleniumtest.pages.HomePage;
-import au.rmit.s3925523.s3925523seleniumtest.pages.LoginPage;
-import au.rmit.s3925523.s3925523seleniumtest.pages.SignUpPage;
-import com.inflectra.spiratest.addons.junitextension.SpiraExtension;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.*;
+import au.rmit.s3925523.s3925523seleniumtest.pages.*;
 
-import com.inflectra.spiratest.addons.junitextension.SpiraTestCase;
-import com.inflectra.spiratest.addons.junitextension.SpiraTestConfiguration;
+import com.inflectra.spiratest.addons.junitextension.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpiraExtension.class)
 @SpiraTestConfiguration(
@@ -29,7 +25,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         testSetId = -1
 )
 
-public class LoginTests extends BaseTest {
+public class LoginTests {
+    private static final String BASE_URL = "https://demoblaze.com/";
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    @BeforeEach
+    void setUp() {
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().window().maximize();
+        driver.get(BASE_URL);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (driver != null) driver.quit();
+    }
 
     // put in a small BasePage OR duplicate in SignUpPage & HomePage for speed
     private void waitForNoModal(WebDriverWait wait, WebDriver driver) {

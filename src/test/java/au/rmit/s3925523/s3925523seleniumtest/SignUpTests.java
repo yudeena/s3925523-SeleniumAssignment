@@ -3,6 +3,8 @@ package au.rmit.s3925523.s3925523seleniumtest;
 import au.rmit.s3925523.s3925523seleniumtest.pages.SignUpPage;
 import au.rmit.s3925523.s3925523seleniumtest.base.BaseTest;
 import com.inflectra.spiratest.addons.junitextension.SpiraExtension;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.inflectra.spiratest.addons.junitextension.SpiraTestCase;
@@ -10,9 +12,11 @@ import com.inflectra.spiratest.addons.junitextension.SpiraTestConfiguration;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,7 +31,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         testSetId = -1
 )
 
-public class SignUpTests extends BaseTest {
+public class SignUpTests {
+    private static final String BASE_URL = "https://demoblaze.com/";
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    @BeforeEach
+    void setUp() {
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().window().maximize();
+        driver.get(BASE_URL);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (driver != null) driver.quit();
+    }
+
 
     @Test
     @SpiraTestCase(testCaseId = 38288)
